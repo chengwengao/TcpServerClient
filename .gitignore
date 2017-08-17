@@ -3,3 +3,7 @@
 ################################################################################
 
 /TCP/TCPServer/obj/Debug
+/TCP/TCPClient/obj/Debug
+/TCP/TCPClient/bin/Debug
+/TCP/TCPServer/bin/Debug
+/TCP/.vs/TCP/v14
