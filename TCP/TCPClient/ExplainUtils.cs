@@ -410,5 +410,35 @@ namespace TCPServer
             // 转义
             return ExplainUtils.DoEscape4Send(byteSource.ToArray(), 1, byteSource.ToArray().Length - 1);
         }
+
+        //检验消息是否有效,无效直接舍弃
+        public static bool msgValid(byte[] data)
+        {
+            int checkSumInPkg = data[data.Length - 1 - 1];
+            //消息头开始直到校验码前一个字节异或计算得到的校验码结果
+            int calculatedCheckSum = getCheckSum4JT808(data, 0 + 1, data.Length - 1 - 1);
+            if (checkSumInPkg != calculatedCheckSum)
+            {
+                //检验码不一致
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary> 
+        /// 字符串转16进制字节数组 
+        /// </summary> 
+        /// <param name="hexString"></param> 
+        /// <returns></returns> 
+        public static byte[] strToToHexByte(string hexString)
+        {
+            hexString = hexString.Replace(" ", "");
+            if ((hexString.Length % 2) != 0)
+                hexString += " ";
+            byte[] returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            return returnBytes;
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace TCPServer
         public void Process()
         {
             //TODO:消息体最长2^10，此处buffer长度待商榷
-            byte[] buffer = new byte[512];
+            byte[] buffer = new byte[1024];
             string content = "";
             string ipAddr = ((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString();
             Console.WriteLine("a new connect from:{0}", ipAddr);
@@ -31,8 +31,10 @@ namespace TCPServer
                 int received = 0;
                 while ((received = clientSocket.Receive(buffer)) != 0)
                 {
-
+                    
                     content = ExplainUtils.convertStrMsg(buffer);
+                    //校验消息是否正确
+                    if (!ExplainUtils.msgValid(ExplainUtils.strToToHexByte(content))) break;
                     Console.WriteLine("received:{0}", content);
                     byte[] bytes = ExplainUtils.HexSpaceStringToByteArray(content);
                     int msgBodyProps = ExplainUtils.ParseIntFromBytes(bytes, 2 + 1, 2);
