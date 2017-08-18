@@ -38,8 +38,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TCPServer">
+      <HintPath>..\TCPServer\obj\Release\TCPServer.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExplainUtils.cs" />
     <Compile Include="TCPClient.cs">
       <SubType>Form</SubType>
     </Compile>

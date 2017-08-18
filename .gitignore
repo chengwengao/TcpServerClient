@@ -7,3 +7,5 @@
 /TCP/TCPClient/bin/Debug
 /TCP/TCPServer/bin/Debug
 /TCP/.vs/TCP/v14
+/TCP/TCPServer/obj/Release
+/TCP/TCPClient/obj/Release

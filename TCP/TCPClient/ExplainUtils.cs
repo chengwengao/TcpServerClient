@@ -44,7 +44,7 @@ namespace TCPServer
             content = BitConverter.ToString(buffer).Replace("-", " ");
             //TODO:此处截取多余位数待优化
             int index = content.ToUpper().LastIndexOf("7E");
-            content = content.Substring(0, index + 3);
+            content = content.Substring(0, index + 2);
             return content;
         }
 

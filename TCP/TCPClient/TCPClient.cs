@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 using System.Net;
 using System.Net.Sockets;
+using TCPServer;
 
 namespace TCPClient
 {
@@ -76,15 +77,21 @@ namespace TCPClient
                     return;
                 }
 
+                AppendContent("发送消息：");
                 AppendContent(inputBox.Text);
-                byte[] bytes = Encoding.UTF8.GetBytes(inputBox.Text);
-                inputBox.Text = "";
-
+                byte[] byte1 = Encoding.UTF8.GetBytes(inputBox.Text);
+                string content = ExplainUtils.convertStrMsg(byte1);
+                byte[] bytes = ExplainUtils.HexSpaceStringToByteArray(inputBox.Text);
+                int msgBodyProps = ExplainUtils.ParseIntFromBytes(bytes, 2 + 1, 2);
+                string terminalPhone = (ExplainUtils.ParseBcdStringFromBytes(bytes, 4 + 1, 6));
+                int flowId = ExplainUtils.ParseIntFromBytes(bytes, 10 + 1, 2);
+                //客户端消息应答
+                bytes = ExplainUtils.rtnRespMsg(msgBodyProps, terminalPhone, flowId);
                 clientSocket.Send(bytes);
-
-                int length = clientSocket.Receive(buffer);
-                string receivedContent = Encoding.UTF8.GetString(buffer, 0, length);
-                AppendContent(receivedContent);
+                AppendContent("解码消息：");
+                AppendContent(ExplainUtils.convertStrMsg(bytes));
+                
+                inputBox.Text = "";
             }
             catch (Exception exception)
             {
